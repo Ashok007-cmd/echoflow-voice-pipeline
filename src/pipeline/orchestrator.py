@@ -189,7 +189,7 @@ class PipelineOrchestrator:
             engine = self._get_asr_engine(backend)
             try:
                 result = await self.asr_circuit.call(
-                    lambda: with_timeout(
+                    lambda engine=engine: with_timeout(
                         engine.transcribe(audio_data, sample_rate),
                         TimeoutSettings.for_asr(self.config.resilience.asr_timeout),
                     )
@@ -313,7 +313,7 @@ class PipelineOrchestrator:
             engine = self._get_tts_engine(backend)
             try:
                 result = await self.tts_circuit.call(
-                    lambda: with_timeout(
+                    lambda engine=engine: with_timeout(
                         engine.synthesize(text),
                         TimeoutSettings.for_tts(self.config.resilience.tts_timeout),
                     )
@@ -705,8 +705,8 @@ class PipelineOrchestrator:
             self._warmup_task.cancel()
             try:
                 await self._warmup_task
-            except (asyncio.CancelledError, Exception):
-                pass
+            except (asyncio.CancelledError, Exception) as e:
+                logger.debug(f"Warmup task cancellation raised: {e}")
         self.db.close()
         logger.info("Pipeline stopped")
 

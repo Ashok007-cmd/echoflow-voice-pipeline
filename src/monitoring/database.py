@@ -106,8 +106,8 @@ class MetricsDatabase:
             if conn:
                 try:
                     conn.close()
-                except Exception:
-                    pass
+                except sqlite3.Error as e:
+                    logger.debug(f"Error closing metrics database connection: {e}")
 
     def save_turn_metrics(self, metrics: TurnMetrics) -> None:
         """Enqueue a TurnMetrics record for background write."""

@@ -7,6 +7,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Docker](https://img.shields.io/badge/docker-ghcr.io-blue.svg)](https://github.com/Ashok007-cmd/echoflow-voice-pipeline/pkgs/container/echoflow-voice-pipeline)
+[![Security Policy](https://img.shields.io/badge/security-policy-brightgreen.svg)](SECURITY.md)
 
 EchoFlow is a **production-grade, asyncio-based real-time voice assistant pipeline** that chains automatic speech recognition, large language models, and speech synthesis into a single low-latency streaming loop.
 

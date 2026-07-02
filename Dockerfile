@@ -29,6 +29,15 @@ COPY src/ ./src/
 COPY tests/ ./tests/
 COPY pyproject.toml .
 
+# Run as a non-root user — least privilege for the container process
+RUN useradd --create-home --shell /usr/sbin/nologin appuser \
+    && chown -R appuser:appuser /app
+USER appuser
+
+# Basic liveness check: the CLI can import and report its version
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
+    CMD python -m src.main --help > /dev/null || exit 1
+
 # Define standard entrypoint for container execution
 ENTRYPOINT ["python", "-m", "src.main"]
 CMD ["benchmark", "--turns", "5", "--mock"]
